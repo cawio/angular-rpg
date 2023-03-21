@@ -12,6 +12,7 @@ import { EnemyType } from "../enums/EnemyType";
 export class AngularRpg {
   player: Player;
   opponent?: Enemy;
+  item?: Item;
   currentStage = 0;
   elements: GameElement[] = [];
 
@@ -73,9 +74,17 @@ export class AngularRpg {
     const enemies = this.genEnemies(this.currentStage + 1);
     this.addElements(enemies);
 
-    // generate a item for now
+    // generate one item for now
     const itemPos = this.genRandomPos(this.elements.map(element => element.getPosition()) as Position[]);
-    const item = new Item('Red Apple', 'Eat this apple to replenish your health', '🍎', 'i0', itemPos.x, itemPos.y);
+    const itemID = 'i' + Date.now().toString();
+    const item = new Item(
+      'Apple', 'Eat this apple to replenish 5 of your Healthpoints', '🍎', itemID,
+      (player: Player, myID: string) => {
+        player.heal(5);
+        player.inventory = player.inventory.filter(item => item.id !== myID);
+      },
+      itemPos.x, itemPos.y,
+    );
     this.addElements([item]);
   }
 
@@ -206,7 +215,11 @@ export class AngularRpg {
   }
 
   handleItemInteraction(item: Item): void {
-    item.action(this.player);
+    // mark the item for angular component
+    // so dialog box can be shown
+    this.item = item;
+
+    // remove the item from the map
     this.elements = this.elements.filter(element => {
       if (element && this.itemTypeGuard(element)) {
         const curId = element.id;

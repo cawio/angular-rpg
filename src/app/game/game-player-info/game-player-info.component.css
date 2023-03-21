@@ -1,0 +1,14 @@
+.info-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.inventory-items {
+  max-width: 200px;
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-size: x-large;
+}

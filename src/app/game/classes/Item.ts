@@ -10,6 +10,7 @@ export class Item {
     readonly description: string,
     readonly display: string,
     readonly id: string,
+    public action: (player: Player, myID: string) => void,
     x: number,
     y: number,
   ) {
@@ -18,9 +19,5 @@ export class Item {
 
   getPosition(): Position {
     return this.position;
-  }
-
-  action(player: Player) {
-    player.heal(5);
   }
 }

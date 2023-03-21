@@ -1,6 +1,6 @@
 export enum EnemyType {
   ERROR = -1,
   ForestZombie = 0,
-  ForestBat,
-  ForestSpider,
+  ForestBat = 1,
+  ForestSpider = 2,
 }

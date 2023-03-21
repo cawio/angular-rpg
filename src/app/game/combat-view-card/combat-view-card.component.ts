@@ -14,17 +14,17 @@ export class CombatViewCardComponent implements OnInit {
   ngOnInit(): void {
     switch(this.name) {
       case 'Forest Zombie':
-        this.imgSrc = '../../../assets/images/zombie.png';
+        this.imgSrc = './assets/images/zombie.png';
         'assets'
         break;
       case 'Forest Spider':
-        this.imgSrc = '../../../assets/images/spider.png';
+        this.imgSrc = './assets/images/spider.png';
         break;
       case 'Forest Bat':
-        this.imgSrc = '../../../assets/images/bat.png';
+        this.imgSrc = './assets/images/bat.png';
         break;
       default:
-        this.imgSrc = '../../../assets/images/player.png';
+        this.imgSrc = './assets/images/player.png';
     }
   }
 }

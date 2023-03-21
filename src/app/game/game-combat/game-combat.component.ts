@@ -9,6 +9,7 @@ import { DialogComponent } from '../dialog/dialog.component';
 import { Enemy } from '../classes/Enemy';
 import { Player } from '../classes/Player';
 import { EnemyNamePipe } from '../enemy-name.pipe';
+import { EnemyType } from '../enums/EnemyType';
 
 
 @Component({
@@ -197,7 +198,7 @@ export class GameCombatComponent implements OnInit, OnDestroy {
       disableClose: true,
       data: {
         title: 'You have been defeated!',
-        message: 'You have been defeated by the forest zombie! Would you like to try again?',
+        message: `You have been defeated by a ${this.enemyNamePipe.transform(this.enemy?.enemyType || EnemyType.ERROR)}! Would you like to try again?`,
         btn1: {
           title: 'Start Over',
           matStyle: 'warn',

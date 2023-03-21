@@ -30,3 +30,20 @@
   gap: 10px;
   flex-direction: column;
 }
+
+.item-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.item {
+  background: transparent;
+  border: none;
+  font-size: x-large;
+}
+
+.item:hover {
+  cursor: pointer;
+}

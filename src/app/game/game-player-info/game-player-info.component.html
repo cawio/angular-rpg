@@ -1,7 +1,7 @@
 <div class="info-container">
   <div>Player: {{ player.name || 'N/A' }}</div>
   <div>Level: {{ player.level }}</div>
-  <div>Experience: {{ player.exp }}</div>
+  <div>Experience: {{ player.exp }}/{{ player.level * 100 }}</div>
   <div>Health: {{ player.currentHealth }}/{{ player.maxHealth }}</div>
   <div>Inventory:
     <div class="inventory-items">

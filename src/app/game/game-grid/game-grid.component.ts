@@ -17,11 +17,9 @@ export class GameGridComponent implements OnInit, OnChanges {
   constructor( ) { }
 
   ngOnInit(): void {
-    console.log('ngOnInit in game-grid.component.ts');
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('ngOnChanges in game-grid.component.ts');
     this.inizializeGrid();
     this.placeGameElements();
   }

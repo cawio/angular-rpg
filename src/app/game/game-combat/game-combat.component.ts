@@ -33,7 +33,6 @@ export class GameCombatComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    console.log('ngOnInit() called in game-combat.component.ts');
     this.playerSubscription = this.combatService.player.subscribe(player => {
       if (player) {
         this.player = player as Player;
@@ -51,7 +50,6 @@ export class GameCombatComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    console.log('ngOnDestroy() called in game-combat.component.ts');
     if (this.playerSubscription) {
       this.playerSubscription.unsubscribe();
     }

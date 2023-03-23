@@ -19,14 +19,12 @@ export class GameViewComponent implements OnInit, OnDestroy {
     private combatService: CombatService,) { }
 
   ngOnInit(): void {
-    console.log('ngOnInit called in game-view.component.ts');
     this.playerName = this.sharedDataService.getPlayerName();
     this.angularRpg = new AngularRpg(this.playerName, 10, 10);
     this.angularRpgService.setAngularRpg(this.angularRpg);
   }
 
   ngOnDestroy(): void {
-    console.log('ngOnDestroy called in game-view.component.ts');
     this.resetCombatService();
   }
 

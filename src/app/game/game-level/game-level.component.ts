@@ -31,7 +31,6 @@ export class GameLevelComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log('ngOnInit() called in game-level.component.ts');
     this.angularRpg = this.angularRpgService.getAngularRpg();
     const player = this.combatService.getPlayer();
     if (player) {

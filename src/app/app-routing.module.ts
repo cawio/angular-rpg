@@ -5,16 +5,20 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { GameViewComponent } from './game/game-view/game-view.component';
 import { GameLevelComponent } from './game/game-level/game-level.component';
 import { GameCombatComponent } from './game/game-combat/game-combat.component';
+import { FileUploadComponent } from './file-upload/file-upload.component';
 
 const routes: Routes = [
   { path: '',
     redirectTo: '/welcome',
     pathMatch: 'full' },
   { path: 'welcome',
-    title: 'Angular RPG', 
+    title: 'Angular RPG',
     component: WelcomeScreenComponent },
+  { path: 'upload',
+    title: 'Angular RPG',
+    component: FileUploadComponent },
   { path: 'game',
-    title: 'Angular RPG', 
+    title: 'Angular RPG',
     component: GameViewComponent,
     children: [
       { path: '',

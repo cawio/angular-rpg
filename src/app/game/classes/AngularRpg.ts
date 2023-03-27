@@ -23,7 +23,7 @@ export class AngularRpg {
   ) {
     // init player object
     const playerPos = this.genRandomPos();
-    this.player = new Player(playerName, playerPos.x, playerPos.y);
+    this.player = new Player(playerName, this.width, this.height, playerPos.x, playerPos.y);
     // generate Game Elements
     this.genElements();
   }
@@ -95,7 +95,7 @@ export class AngularRpg {
       const position = this.genRandomPos(blockedPositions);
       blockedPositions.push(position);
       const typeToGen: number = Math.floor(Math.random() * (Object.keys(EnemyType).length / 2));
-      const enemy = new Enemy('enemy' + i, typeToGen, this.currentStage, position.x, position.y);
+      const enemy = new Enemy('enemy' + i, typeToGen, this.currentStage, this.width, this.height, position.x, position.y);
       enemies.push(enemy);
     }
 

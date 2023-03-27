@@ -11,14 +11,16 @@ export class Player extends MoveableEntity implements Combatant {
   currentHealth = this.maxHealth;
   attributes: Attributes = { strength: 10, armor: 5, evasion: 0.1 };
   inventory: Item[] = [];
-  readonly display = '🧙‍♂️';
+  readonly icon = '🧙‍♂️';
   readonly type = ElementType.Player;
 
   constructor (
     readonly name: string,
+    width: number,
+    height: number,
     x: number,
     y: number,
-  ) { super(x, y); }
+  ) { super(width, height, x, y); }
 
   attack(target: Combatant): number {
     // check if attack hits

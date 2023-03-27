@@ -2,7 +2,7 @@ import { ElementType } from '../enums/ElementType';
 import { Position } from '../interfaces/Position';
 
 export class Obstruction {
-  readonly display = '🌳';
+  readonly icon = '🌳';
   readonly type = ElementType.Obstruction;
   constructor(
     private x: number,

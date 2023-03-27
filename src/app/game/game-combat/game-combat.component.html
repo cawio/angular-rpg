@@ -12,7 +12,7 @@
   <div class="bottom-container">
     <div class="item-container">inventory
       <div class="inventory-items">
-        <button *ngFor="let item of player.inventory" class="item" [textContent]="item.display" (click)="item.action(player, item.id); updatePlayerHealthBar()"></button>
+        <button *ngFor="let item of player.inventory" class="item" [textContent]="item.icon" (click)="item.action(player, item.id); updatePlayerHealthBar()"></button>
       </div>
     </div>
     <div>

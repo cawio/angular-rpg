@@ -71,15 +71,15 @@ export class GameCombatComponent implements OnInit, OnDestroy {
 
     const calculatedDmg = this.player.attack(this.enemy);
     if (calculatedDmg === 0) {
-      this.combatLog.push(`You miss the ${this.enemy.display}!`);
+      this.combatLog.push(`You miss the ${this.enemy.icon}!`);
       return this.onEnemyAttacks();
     }
     this.updateEnemyHealthBar();
-    this.combatLog.push(`You attack the ${this.enemy.display} for ${calculatedDmg} damage!`);
+    this.combatLog.push(`You attack the ${this.enemy.icon} for ${calculatedDmg} damage!`);
 
     // handle enemy death
     if (this.checkIfEnemyIsDead()) {
-      this.combatLog.push(`You have defeated the ${this.enemy.display}!`);
+      this.combatLog.push(`You have defeated the ${this.enemy.icon}!`);
       /*
         TODO: Add logic to handle enemy death (loot, exp, etc.)
         for now just go back to game-level
@@ -99,17 +99,17 @@ export class GameCombatComponent implements OnInit, OnDestroy {
 
     const calculatedStolenHp = this.player.attack(this.enemy);
     if (calculatedStolenHp === 0) {
-      this.combatLog.push(`You miss the ${this.enemy.display}!`);
+      this.combatLog.push(`You miss the ${this.enemy.icon}!`);
       return this.onEnemyAttacks();
     }
     this.player.heal(calculatedStolenHp);
     this.updatePlayerHealthBar();
     this.updateEnemyHealthBar();
-    this.combatLog.push(`You steal ${calculatedStolenHp} HP from ${this.enemy.display}!`);
+    this.combatLog.push(`You steal ${calculatedStolenHp} HP from ${this.enemy.icon}!`);
 
     // handle enemy death
     if (this.checkIfEnemyIsDead()) {
-      this.combatLog.push(`You have defeated the ${this.enemy.display}!`);
+      this.combatLog.push(`You have defeated the ${this.enemy.icon}!`);
       //TODO: Add logic to handle enemy death (loot, exp, etc.)
       // for now just go back to game level
       return this.goToGameLevel();
@@ -126,16 +126,16 @@ export class GameCombatComponent implements OnInit, OnDestroy {
 
     const calculatedDmg = this.enemy.attack(this.player);
     if (calculatedDmg === 0) {
-      this.combatLog.push(`The ${this.enemy.display} misses you!`);
+      this.combatLog.push(`The ${this.enemy.icon} misses you!`);
       return;
     }
-    this.combatLog.push(`The ${this.enemy.display} attacks you for ${calculatedDmg} damage!`);
+    this.combatLog.push(`The ${this.enemy.icon} attacks you for ${calculatedDmg} damage!`);
 
     this.updatePlayerHealthBar();
 
     // handle player death
     if (this.checkIfPlayerIsDead()) {
-      this.combatLog.push(`You have been defeated by ${this.enemy.display}!`)
+      this.combatLog.push(`You have been defeated by ${this.enemy.icon}!`)
       // TODO: Add logic to handle player death
       // for now just go back to welcome scree
       this.openDefeatDialog();

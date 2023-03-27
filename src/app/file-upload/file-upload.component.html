@@ -1,0 +1,7 @@
+<div class="container">
+  <label for="file">
+  Upload your save.json:
+  </label>
+  <input type="file" id="file" (change)="onFileChange($event)" [accept]="acceptedFileExtensions" />
+  <button mat-raised-button routerLink="/">Back</button>
+</div>

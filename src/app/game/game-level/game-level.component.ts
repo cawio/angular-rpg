@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
+import  *  as FileSaver  from 'file-saver';
+
 import { AngularRpg } from '../classes/AngularRpg';
 import { GameElement } from '../interfaces/GameElement';
 import { Inputs } from '../enums/Inputs';
@@ -13,6 +15,7 @@ import { Player } from '../classes/Player';
 import { Enemy } from '../classes/Enemy';
 import { Item } from '../classes/Item';
 import { DialogComponent } from '../dialog/dialog.component';
+import { AngularRpgSave } from '../classes/AngularRpgSave';
 
 @Component({
   selector: 'app-game-level',
@@ -114,5 +117,13 @@ export class GameLevelComponent implements OnInit {
     };
 
     this.itemInteractionDialog.open(DialogComponent, config);
+  }
+
+  onSaveClicked(): void {
+    // TODO download the save file
+    const data = new AngularRpgSave(this.angularRpg).transformToJSON();
+    const blob = new Blob([data], {type: 'application/json, charset=utf-8'});
+    const player = this.angularRpg.player.name || 'unknownplayer';
+    FileSaver.saveAs(blob, `arpg-${player}-save.json`);
   }
 }

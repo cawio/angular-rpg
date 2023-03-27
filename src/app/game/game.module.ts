@@ -15,6 +15,7 @@ import { CombatViewCardComponent } from './combat-view-card/combat-view-card.com
 import { EnemyNamePipe } from './enemy-name.pipe';
 import { GameMessageLogComponent } from './game-message-log/game-message-log.component';
 import { GamePlayerInfoComponent } from './game-player-info/game-player-info.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,14 @@ import { GamePlayerInfoComponent } from './game-player-info/game-player-info.com
     MatButtonModule,
     MatListModule,
     MatDialogModule,
+    MatIconModule,
   ],
+  exports: [
+    MatButtonModule,
+    MatListModule,
+    MatDialogModule,
+    MatProgressBarModule,
+    MatIconModule  ],
   providers: [
     EnemyNamePipe,
   ],

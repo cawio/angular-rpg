@@ -10,7 +10,7 @@ import { Attributes } from '../interfaces/Attributes';
 export class Enemy extends MoveableEntity implements Combatant {
   maxHealth = 10;
   currentHealth = this.maxHealth;
-  display: string;
+  icon: string;
   attributes: Attributes = { strength: 10, armor: 3, evasion: 0.1 };
   inventory: Item[] = [];
   exp = 10;
@@ -20,11 +20,13 @@ export class Enemy extends MoveableEntity implements Combatant {
     readonly id: string,
     readonly enemyType: EnemyType,
     stage: number,
+    width: number,
+    height: number,
     x: number,
     y: number,
   ) {
-    super(x, y);
-    this.display = this.initDisplay(enemyType);
+    super(width, height, x, y);
+    this.icon = this.initDisplay(enemyType);
     this.initAttributes(stage);
   }
 

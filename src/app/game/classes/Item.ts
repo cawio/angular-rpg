@@ -8,7 +8,7 @@ export class Item {
   constructor(
     readonly name: string,
     readonly description: string,
-    readonly display: string,
+    readonly icon: string,
     readonly id: string,
     public action: (player: Player, myID: string) => void,
     x: number,

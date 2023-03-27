@@ -3,7 +3,7 @@ import { Position } from "../interfaces/Position";
 
 export class Exit {
   readonly type = ElementType.Exit;
-  readonly display = '🕳️';
+  readonly icon = '🕳️';
   readonly exp: number;
 
   constructor (

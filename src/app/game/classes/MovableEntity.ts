@@ -4,9 +4,9 @@ import { GameElement } from "../interfaces/GameElement";
 import { Position } from "../interfaces/Position";
 
 export abstract class MoveableEntity {
-  readonly mapWidth = 10;
-  readonly mapHeight = 10;
   constructor (
+    private mapWidth: number,
+    private mapHeight: number,
     private x: number,
     private y: number) { }
 

@@ -3,8 +3,12 @@ import { Item } from './Item';
 import { ElementType } from '../enums/ElementType';
 import { Combatant } from '../interfaces/Combatant';
 import { Attributes } from '../interfaces/Attributes';
+import { MoveableEntityInitObj } from '../interfaces/MoveableEntityInitObj'
+import { PlayerData } from '../interfaces/PlayerData';
+import { ItemData } from '../interfaces/ItemData';
 
 export class Player extends MoveableEntity implements Combatant {
+  name = 'n/a';
   level = 1;
   exp = 0;
   maxHealth = 20;
@@ -14,13 +18,22 @@ export class Player extends MoveableEntity implements Combatant {
   readonly icon = '🧙‍♂️';
   readonly type = ElementType.Player;
 
-  constructor (
-    readonly name: string,
-    width: number,
-    height: number,
-    x: number,
-    y: number,
-  ) { super(width, height, x, y); }
+  constructor(name: string, width: number, height: number, x: number, y: number) {
+    super(width, height, x, y);
+    this.name = name;
+  }
+
+  static createPlayerFromJson(movEntInitObj: MoveableEntityInitObj, playerJson: PlayerData ) {
+    let newPlayer = new Player(playerJson.name, movEntInitObj.width, movEntInitObj.height, movEntInitObj.x, movEntInitObj.y);
+    newPlayer.level = playerJson.level;
+    newPlayer.exp = playerJson.exp;
+    newPlayer.maxHealth = playerJson.maxHealth;
+    newPlayer.currentHealth = playerJson.currentHealth;
+    newPlayer.attributes = playerJson.attributes;
+    newPlayer.inventory = playerJson.inventory.map(itemJson => Item.createItemFromJson(itemJson));
+
+    return newPlayer;
+  }
 
   attack(target: Combatant): number {
     // check if attack hits

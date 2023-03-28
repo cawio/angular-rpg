@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Player } from '../classes/Player';
+import { Player } from '../../classes/Player';
 
 @Component({
   selector: 'app-game-player-info',

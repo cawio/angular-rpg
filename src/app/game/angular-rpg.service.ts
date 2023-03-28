@@ -1,11 +1,11 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { AngularRpg } from './classes/AngularRpg';
+import { AngularRpg } from '../classes/AngularRpg';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AngularRpgService implements OnDestroy {
-  private angularRpg!: AngularRpg;
+  private angularRpg?: AngularRpg;
   constructor() { }
 
   ngOnDestroy(): void {
@@ -16,7 +16,11 @@ export class AngularRpgService implements OnDestroy {
     this.angularRpg = angularRpg;
   }
 
-  getAngularRpg(): AngularRpg {
+  getAngularRpg(): AngularRpg | undefined {
     return this.angularRpg;
+  }
+
+  clearAngularRpg(): void {
+    this.angularRpg = undefined;
   }
 }

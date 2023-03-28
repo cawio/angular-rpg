@@ -6,8 +6,8 @@ import { Subscription } from 'rxjs';
 
 import { CombatService } from '../combat.service';
 import { DialogComponent } from '../dialog/dialog.component';
-import { Enemy } from '../classes/Enemy';
-import { Player } from '../classes/Player';
+import { Enemy } from '../../classes/Enemy';
+import { Player } from '../../classes/Player';
 import { EnemyNamePipe } from '../enemy-name.pipe';
 
 

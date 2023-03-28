@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AngularRpg } from '../classes/AngularRpg';
+import { AngularRpg } from '../../classes/AngularRpg';
 import { SharedDataService } from '../../shared-data.service';
 import { AngularRpgService } from '../angular-rpg.service';
 import { CombatService } from '../combat.service';
@@ -19,13 +19,18 @@ export class GameViewComponent implements OnInit, OnDestroy {
     private combatService: CombatService,) { }
 
   ngOnInit(): void {
-    this.playerName = this.sharedDataService.getPlayerName();
-    this.angularRpg = new AngularRpg(this.playerName, 10, 10);
-    this.angularRpgService.setAngularRpg(this.angularRpg);
+    // game could be set if game was saved and player is returning to game
+    const gameNotSet = this.angularRpgService.getAngularRpg() === undefined;
+    if (gameNotSet) {
+      this.playerName = this.sharedDataService.getPlayerName();
+      this.angularRpg = new AngularRpg(this.playerName, 10, 10);
+      this.angularRpgService.setAngularRpg(this.angularRpg);
+    }
   }
 
   ngOnDestroy(): void {
     this.resetCombatService();
+    this.angularRpgService.clearAngularRpg();
   }
 
   resetCombatService(): void {

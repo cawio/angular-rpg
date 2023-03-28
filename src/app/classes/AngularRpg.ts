@@ -8,24 +8,39 @@ import { Position } from "../interfaces/Position";
 import { Inputs } from "../enums/Inputs";
 import { ElementType } from "../enums/ElementType";
 import { EnemyType } from "../enums/EnemyType";
+import { ItemActionType } from "../enums/ItemActionType";
 
 export class AngularRpg {
+  readonly width: number;
+  readonly height: number;
   player: Player;
   opponent?: Enemy;
   item?: Item;
   currentStage = 0;
   elements: GameElement[] = [];
 
-  constructor(
-    playerName: string,
-    readonly height: number,
-    readonly width: number
-  ) {
+  constructor(player: string | Player, height: number, width: number, elements?: GameElement[], stage?: number) {
+    this.width = width;
+    this.height = height;
+
     // init player object
     const playerPos = this.genRandomPos();
-    this.player = new Player(playerName, this.width, this.height, playerPos.x, playerPos.y);
+    if (typeof player === 'string') {
+      this.player = new Player(player, this.width, this.height, playerPos.x, playerPos.y);
+    } else {
+      this.player = player;
+    }
+
     // generate Game Elements
-    this.genElements();
+    if (elements) {
+      this.elements = elements;
+    } else {
+      this.genElements();
+    }
+
+    if (stage) {
+      this.currentStage = stage;
+    }
   }
 
   operateGame(direction: Inputs): GameElement[] {
@@ -78,7 +93,8 @@ export class AngularRpg {
     const itemPos = this.genRandomPos(this.elements.map(element => element.getPosition()) as Position[]);
     const itemID = 'i' + Date.now().toString();
     const item = new Item(
-      'Apple', 'Eat this apple to replenish 5 of your Healthpoints', '🍎', itemID,
+      'Healing Apple', 'Heals 5 HP', '🍎', itemID,
+      ItemActionType.Heal,
       (player: Player, myID: string) => {
         player.heal(5);
         player.inventory = player.inventory.filter(item => item.id !== myID);
@@ -132,7 +148,7 @@ export class AngularRpg {
       }
     }
 
-    // handle no free spaces
+    // handle case where there are no free spaces
     const noFreeSpaces = freeSpaces.length === 0;
     if (noFreeSpaces) {
       return [];

@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 
 import  { BehaviorSubject } from 'rxjs';
 
-import { Player } from './classes/Player';
-import { Enemy } from './classes/Enemy';
-import { GameElement } from './interfaces/GameElement';
+import { Player } from '../classes/Player';
+import { Enemy } from '../classes/Enemy';
+import { GameElement } from '../interfaces/GameElement';
 
 
 @Injectable({

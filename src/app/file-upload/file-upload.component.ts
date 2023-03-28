@@ -1,4 +1,19 @@
 import { Component } from '@angular/core';
+import { AngularRpgSaveFile } from '../interfaces/AngularRpgSaveFile';
+import { Player } from '../classes/Player';
+import { MoveableEntityInitObj } from '../interfaces/MoveableEntityInitObj';
+import { ElementType } from '../enums/ElementType';
+import { Enemy } from '../classes/Enemy';
+import { EnemyData } from '../interfaces/EnemyData';
+import { ItemData } from '../interfaces/ItemData';
+import { Item } from '../classes/Item';
+import { ObstructionData } from '../interfaces/ObstructionData';
+import { Obstruction } from '../classes/Obstruction';
+import { ExitData } from '../interfaces/ExitData';
+import { Exit } from '../classes/Exit';
+import { AngularRpg } from '../classes/AngularRpg';
+import { AngularRpgService } from '../game/angular-rpg.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-file-upload',
@@ -8,7 +23,10 @@ import { Component } from '@angular/core';
 export class FileUploadComponent {
   acceptedFileExtensions = '.json'
 
-  constructor() { }
+  constructor(
+    private angularRpgSevice: AngularRpgService,
+    private router: Router
+  ) { }
 
   public onFileChange(event: Event) {
     const fileInput = event.target as HTMLInputElement;
@@ -16,18 +34,50 @@ export class FileUploadComponent {
       const file = fileInput.files[0];
       const reader = new FileReader();
       reader.onload = () => {
-        // TODO - parse the file and load the game
-        // ! testing for now
-        const data = JSON.parse(reader.result as string) as AngularRpgSaveFile;
-        console.log('name: ' + data.name);
-        console.log('age: ' + data.age);
+        const saveData = JSON.parse(reader.result as string) as AngularRpgSaveFile;
+        const moveablePlayer: MoveableEntityInitObj = {
+          width: saveData.width,
+          height: saveData.height,
+          x: saveData.player.position.x,
+          y: saveData.player.position.y,
+        }
+
+        const player: Player = Player.createPlayerFromJson(moveablePlayer, saveData.player);
+        const elements = saveData.elements.map(element => {
+          switch(element.type) {
+            case ElementType.Enemy:
+              const enemyData = element as EnemyData;
+              const enemy = new Enemy(
+                enemyData.id,
+                enemyData.enemyType,
+                saveData.stage,
+                saveData.width,
+                saveData.height,
+                enemyData.position.x,
+                enemyData.position.y,
+              );
+              return enemy;
+            case ElementType.Item:
+              const itemData = element as ItemData;
+              return Item.createItemFromJson(itemData);
+            case ElementType.Obstruction:
+              const obstructionData = element as ObstructionData;
+              return new Obstruction(obstructionData.position.x, obstructionData.position.y);
+            case ElementType.Exit:
+              const exitData = element as ExitData;
+              return new Exit(exitData.position.x, exitData.position.y, saveData.stage)
+            default:
+              throw new Error('Invalid element type');
+          }
+        });
+
+        // init the game
+        const elementsWithPlayer = [player, ...elements];
+        const game = new AngularRpg(player, saveData.width, saveData.height, elementsWithPlayer, saveData.stage);
+        this.angularRpgSevice.setAngularRpg(game);
+        this.router.navigate(['/game/level']);
       };
       reader.readAsText(file, 'UTF-8');
     }
   }
-}
-
-interface AngularRpgSaveFile {
-  name: string;
-  age: number;
 }

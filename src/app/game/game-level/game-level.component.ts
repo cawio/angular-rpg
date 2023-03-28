@@ -1,21 +1,19 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-
 import { Router } from '@angular/router';
-
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 import  *  as FileSaver  from 'file-saver';
 
-import { AngularRpg } from '../classes/AngularRpg';
-import { GameElement } from '../interfaces/GameElement';
-import { Inputs } from '../enums/Inputs';
+import { AngularRpg } from '../../classes/AngularRpg';
+import { GameElement } from '../../interfaces/GameElement';
+import { Inputs } from '../../enums/Inputs';
 import { CombatService } from '../combat.service';
 import { AngularRpgService } from '../angular-rpg.service';
-import { Player } from '../classes/Player';
-import { Enemy } from '../classes/Enemy';
-import { Item } from '../classes/Item';
+import { Player } from '../../classes/Player';
+import { Enemy } from '../../classes/Enemy';
+import { Item } from '../../classes/Item';
 import { DialogComponent } from '../dialog/dialog.component';
-import { AngularRpgSave } from '../classes/AngularRpgSave';
+import { AngularRpgSave } from '../../classes/AngularRpgSave';
 
 @Component({
   selector: 'app-game-level',
@@ -23,7 +21,7 @@ import { AngularRpgSave } from '../classes/AngularRpgSave';
   styleUrls: ['./game-level.component.css']
 })
 export class GameLevelComponent implements OnInit {
-  angularRpg!: AngularRpg;
+  angularRpg: AngularRpg = new AngularRpg('n/a', 15, 15);
   gameElements: GameElement[] = [];
 
   constructor(
@@ -34,7 +32,10 @@ export class GameLevelComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.angularRpg = this.angularRpgService.getAngularRpg();
+    const angularFromService = this.angularRpgService.getAngularRpg()!;
+    if (angularFromService) {
+      this.angularRpg = angularFromService;
+    }
     const player = this.combatService.getPlayer();
     if (player) {
       this.angularRpg.player = player;
@@ -68,14 +69,10 @@ export class GameLevelComponent implements OnInit {
       this.angularRpg.opponent = undefined;
     }
 
-    // TODO: I need to check for a item interatcion here
-    // TODO: and show a dialog box with the item's description and options
     if(this.angularRpg.item) {
       this.showItemInteractionDialog(this.angularRpg.item);
       this.angularRpg.item = undefined;
     }
-
-
 
     // this forces the view to update
     let newElementsArray: GameElement[] = [];

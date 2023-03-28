@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { EnemyType } from './enums/EnemyType';
+import { EnemyType } from '../enums/EnemyType';
 
 @Pipe({
   name: 'enemyName'

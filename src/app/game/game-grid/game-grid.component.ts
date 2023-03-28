@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
-import { ElementType } from '../enums/ElementType';
-import { GameElement } from '../interfaces/GameElement';
-import { Tile } from '../classes/Tile';
+import { ElementType } from '../../enums/ElementType';
+import { GameElement } from '../../interfaces/GameElement';
+import { Tile } from '../../classes/Tile';
 @Component({
   selector: 'app-game-grid',
   templateUrl: './game-grid.component.html',

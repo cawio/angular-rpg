@@ -21,7 +21,7 @@ import { AngularRpgSave } from '../../classes/AngularRpgSave';
   styleUrls: ['./game-level.component.css']
 })
 export class GameLevelComponent implements OnInit {
-  angularRpg: AngularRpg = new AngularRpg('n/a', 15, 15);
+  angularRpg!: AngularRpg;
   gameElements: GameElement[] = [];
 
   constructor(
@@ -32,15 +32,18 @@ export class GameLevelComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const angularFromService = this.angularRpgService.getAngularRpg()!;
-    if (angularFromService) {
-      this.angularRpg = angularFromService;
+    const angularRpgFromService = this.angularRpgService.getAngularRpg()!;
+    if (angularRpgFromService) {
+      this.angularRpg = angularRpgFromService;
     }
     const player = this.combatService.getPlayer();
     if (player) {
       this.angularRpg.player = player;
     }
-    this.gameElements = this.angularRpg.elements;
+
+    if(this.angularRpg) {
+      this.gameElements = this.angularRpg.elements;
+    }
   }
 
   @HostListener('window:keydown', ['$event'])

@@ -75,7 +75,7 @@ export class FileUploadComponent {
 
           // init the game
           const elementsWithPlayer = [player, ...elements];
-          const game = new AngularRpg(player, saveData.width, saveData.height, elementsWithPlayer, saveData.stage);
+          const game = new AngularRpg(player, saveData.width, saveData.height, itemConfigData, elementsWithPlayer, saveData.stage);
           this.angularRpgSevice.setAngularRpg(game);
           this.router.navigate(['/game/level']);
         });
@@ -83,5 +83,5 @@ export class FileUploadComponent {
 
       reader.readAsText(file, 'UTF-8');
     }
-  }6
+  }
 }

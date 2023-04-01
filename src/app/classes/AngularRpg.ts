@@ -9,6 +9,7 @@ import { Inputs } from "../enums/Inputs";
 import { ElementType } from "../enums/ElementType";
 import { EnemyType } from "../enums/EnemyType";
 import { ItemActionType } from "../enums/ItemActionType";
+import { ItemConfigData } from "../interfaces/ItemConfigData";
 
 export class AngularRpg {
   readonly width: number;
@@ -19,7 +20,7 @@ export class AngularRpg {
   currentStage = 0;
   elements: GameElement[] = [];
 
-  constructor(player: string | Player, height: number, width: number, elements?: GameElement[], stage?: number) {
+  constructor(player: string | Player, height: number, width: number, private itemConfigData: ItemConfigData[], elements?: GameElement[], stage?: number) {
     this.width = width;
     this.height = height;
 
@@ -92,9 +93,11 @@ export class AngularRpg {
     // generate one item for now
     const itemPos = this.genRandomPos(this.elements.map(element => element.getPosition()) as Position[]);
     const itemID = 'i' + Date.now().toString();
+    const configData = this.itemConfigData.filter(itemConfig => itemConfig.actionType === ItemActionType.Heal)[0];
     const item = new Item(
-      'Healing Apple', 'Heals 5 HP', '🍎', itemID,
+      itemID,
       ItemActionType.Heal,
+      configData,
       (player: Player, myID: string) => {
         player.heal(5);
         player.inventory = player.inventory.filter(item => item.id !== myID);

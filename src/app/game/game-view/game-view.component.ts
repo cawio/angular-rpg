@@ -22,9 +22,11 @@ export class GameViewComponent implements OnInit, OnDestroy {
     // game could be set if game was saved and player is returning to game
     const gameNotSet = this.angularRpgService.getAngularRpg() === undefined;
     if (gameNotSet) {
-      this.playerName = this.sharedDataService.getPlayerName();
-      this.angularRpg = new AngularRpg(this.playerName, 10, 10);
-      this.angularRpgService.setAngularRpg(this.angularRpg);
+      this.angularRpgService.itemConfigData$.subscribe(itemConfigData => {
+        this.playerName = this.sharedDataService.getPlayerName();
+        this.angularRpg = new AngularRpg(this.playerName, 10, 10, itemConfigData);
+        this.angularRpgService.setAngularRpg(this.angularRpg);
+      });
     }
   }
 

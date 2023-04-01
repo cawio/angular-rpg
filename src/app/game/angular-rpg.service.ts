@@ -33,7 +33,7 @@ export class AngularRpgService implements OnDestroy {
   }
 
   private loadItemConfigData(): void {
-    this.http.get<ItemConfigData[]>('assets/data/item-config-data.json').subscribe((data: ItemConfigData[]) => {
+    this.http.get<ItemConfigData[]>('../../assets/data/configs/item-config-data.json').subscribe((data: ItemConfigData[]) => {
       this.dataSubject.next(data);
     });
   }

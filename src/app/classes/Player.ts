@@ -6,6 +6,7 @@ import { Attributes } from '../interfaces/Attributes';
 import { MoveableEntityInitObj } from '../interfaces/MoveableEntityInitObj'
 import { PlayerData } from '../interfaces/PlayerData';
 import { ItemData } from '../interfaces/ItemData';
+import { ItemConfigData } from '../interfaces/ItemConfigData';
 
 export class Player extends MoveableEntity implements Combatant {
   name = 'n/a';
@@ -23,14 +24,17 @@ export class Player extends MoveableEntity implements Combatant {
     this.name = name;
   }
 
-  static createPlayerFromJson(movEntInitObj: MoveableEntityInitObj, playerJson: PlayerData ) {
-    let newPlayer = new Player(playerJson.name, movEntInitObj.width, movEntInitObj.height, movEntInitObj.x, movEntInitObj.y);
-    newPlayer.level = playerJson.level;
-    newPlayer.exp = playerJson.exp;
-    newPlayer.maxHealth = playerJson.maxHealth;
-    newPlayer.currentHealth = playerJson.currentHealth;
-    newPlayer.attributes = playerJson.attributes;
-    newPlayer.inventory = playerJson.inventory.map(itemJson => Item.createItemFromJson(itemJson));
+  static createPlayerFromSaveData(movEntInitObj: MoveableEntityInitObj, playerData: PlayerData, itemConfigData: ItemConfigData[]) {
+    let newPlayer = new Player(playerData.name, movEntInitObj.width, movEntInitObj.height, movEntInitObj.x, movEntInitObj.y);
+    newPlayer.level = playerData.level;
+    newPlayer.exp = playerData.exp;
+    newPlayer.maxHealth = playerData.maxHealth;
+    newPlayer.currentHealth = playerData.currentHealth;
+    newPlayer.attributes = playerData.attributes;
+    newPlayer.inventory = playerData.inventory.map(itemData => {
+      const itemConfig = itemConfigData.filter(itemConfig => itemConfig.actionType === itemData.actionType)[0];
+      return Item.createItemFromSaveData(itemData, itemConfig);
+    });
 
     return newPlayer;
   }

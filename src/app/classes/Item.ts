@@ -3,30 +3,36 @@ import { ElementType } from "../enums/ElementType";
 import { Player } from "./Player";
 import { ItemActionType } from "../enums/ItemActionType";
 import { ItemData } from "../interfaces/ItemData";
+import { ItemConfigData } from "../interfaces/ItemConfigData";
 
 export class Item {
   readonly type = ElementType.Item;
   readonly position: { x: number, y: number };
+  readonly name: string;
+  readonly description: string;
+  readonly icon: string;
+
   constructor(
-    readonly name: string,
-    readonly description: string,
-    readonly icon: string,
     readonly id: string,
     readonly actionType: ItemActionType,
+    itemConfigData: ItemConfigData,
     public action: (player: Player, myID: string) => void,
     x: number,
     y: number,
   ) {
     this.position = { x, y };
+    this.name = itemConfigData.name;
+    this.description = itemConfigData.description;
+    this.icon = itemConfigData.icon;
   }
 
-  static createItemFromJson(itemJson: ItemData): Item {
+  static createItemFromSaveData(itemData: ItemData, itemConfig: ItemConfigData): Item {
     // set the item name
     let name: string;
     let icon: string;
     let description: string;
     let action: (player: Player, myID: string) => void;
-    switch(itemJson.actionType) {
+    switch(itemData.actionType) {
       case ItemActionType.Heal:
         name = 'Healing Apple';
         icon = '🍎';
@@ -46,7 +52,7 @@ export class Item {
         }
     }
 
-    const newItem = new Item(name, description, icon, itemJson.id, itemJson.actionType, action, itemJson.position?.x || 0, itemJson.position?.y || 0);
+    const newItem = new Item(itemData.id, itemData.actionType, itemConfig, action, itemData.position?.x || 0, itemData.position?.y || 0);
 
     return newItem;
   }

@@ -42,42 +42,46 @@ export class FileUploadComponent {
           y: saveData.player.position.y,
         }
 
-        const player: Player = Player.createPlayerFromJson(moveablePlayer, saveData.player);
-        const elements = saveData.elements.map(element => {
-          switch(element.type) {
-            case ElementType.Enemy:
-              const enemyData = element as EnemyData;
-              const enemy = new Enemy(
-                enemyData.id,
-                enemyData.enemyType,
-                saveData.stage,
-                saveData.width,
-                saveData.height,
-                enemyData.position.x,
-                enemyData.position.y,
-              );
-              return enemy;
-            case ElementType.Item:
-              const itemData = element as ItemData;
-              return Item.createItemFromJson(itemData);
-            case ElementType.Obstruction:
-              const obstructionData = element as ObstructionData;
-              return new Obstruction(obstructionData.position.x, obstructionData.position.y);
-            case ElementType.Exit:
-              const exitData = element as ExitData;
-              return new Exit(exitData.position.x, exitData.position.y, saveData.stage)
-            default:
-              throw new Error('Invalid element type');
-          }
-        });
+        this.angularRpgSevice.itemConfigData$.subscribe(itemConfigData => {
+          const player: Player = Player.createPlayerFromSaveData(moveablePlayer, saveData.player, itemConfigData);
+          const elements = saveData.elements.map(element => {
+            switch(element.type) {
+              case ElementType.Enemy:
+                const enemyData = element as EnemyData;
+                const enemy = new Enemy(
+                  enemyData.id,
+                  enemyData.enemyType,
+                  saveData.stage,
+                  saveData.width,
+                  saveData.height,
+                  enemyData.position.x,
+                  enemyData.position.y,
+                );
+                return enemy;
+              case ElementType.Item:
+                const itemData = element as ItemData;
+                const itemConfig = itemConfigData.filter(itemConfig => itemConfig.actionType === itemData.actionType)[0];
+                return Item.createItemFromSaveData(itemData, itemConfig);
+              case ElementType.Obstruction:
+                const obstructionData = element as ObstructionData;
+                return new Obstruction(obstructionData.position.x, obstructionData.position.y);
+              case ElementType.Exit:
+                const exitData = element as ExitData;
+                return new Exit(exitData.position.x, exitData.position.y, saveData.stage)
+              default:
+                throw new Error('Invalid element type');
+            }
+          });
 
-        // init the game
-        const elementsWithPlayer = [player, ...elements];
-        const game = new AngularRpg(player, saveData.width, saveData.height, elementsWithPlayer, saveData.stage);
-        this.angularRpgSevice.setAngularRpg(game);
-        this.router.navigate(['/game/level']);
+          // init the game
+          const elementsWithPlayer = [player, ...elements];
+          const game = new AngularRpg(player, saveData.width, saveData.height, elementsWithPlayer, saveData.stage);
+          this.angularRpgSevice.setAngularRpg(game);
+          this.router.navigate(['/game/level']);
+        });
       };
+
       reader.readAsText(file, 'UTF-8');
     }
-  }
+  }6
 }

@@ -1,0 +1,14 @@
+[
+  {
+    "actionType": 0,
+    "name": "Unknown",
+    "description": "Unknown",
+    "icon": "❓"
+  },
+  {
+    "actionType": 1,
+    "name": "Apple",
+    "description": "Eating This Apple will heal you for 5 HP",
+    "icon": "🍎"
+   }
+]

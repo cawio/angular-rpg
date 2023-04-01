@@ -1,15 +1,23 @@
 import { Injectable, OnDestroy } from '@angular/core';
+import { Subject, map } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 import { AngularRpg } from '../classes/AngularRpg';
+import { ItemConfigData } from '../interfaces/ItemConfigData';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AngularRpgService implements OnDestroy {
   private angularRpg?: AngularRpg;
-  constructor() { }
+  private dataSubject: Subject<ItemConfigData[]> = new Subject<ItemConfigData[]>();
+  public itemConfigData$ = this.dataSubject.asObservable();
+
+  constructor(private http: HttpClient) {
+    this.loadItemConfigData();
+  }
 
   ngOnDestroy(): void {
-    console.log('AngularRpgService.ngOnDestroy() called');
+    this.dataSubject.unsubscribe();
   }
 
   setAngularRpg(angularRpg: AngularRpg): void {
@@ -22,5 +30,11 @@ export class AngularRpgService implements OnDestroy {
 
   clearAngularRpg(): void {
     this.angularRpg = undefined;
+  }
+
+  private loadItemConfigData(): void {
+    this.http.get<ItemConfigData[]>('assets/data/item-config-data.json').subscribe((data: ItemConfigData[]) => {
+      this.dataSubject.next(data);
+    });
   }
 }

@@ -21,7 +21,7 @@ import { AngularRpgSave } from '../../classes/AngularRpgSave';
   styleUrls: ['./game-level.component.css']
 })
 export class GameLevelComponent implements OnInit {
-  angularRpg!: AngularRpg;
+  angularRpg?: AngularRpg;
   gameElements: GameElement[] = [];
 
   constructor(
@@ -36,18 +36,22 @@ export class GameLevelComponent implements OnInit {
     if (angularRpgFromService) {
       this.angularRpg = angularRpgFromService;
     }
-    const player = this.combatService.getPlayer();
-    if (player) {
-      this.angularRpg.player = player;
-    }
 
     if(this.angularRpg) {
+      const player = this.combatService.getPlayer();
+      if (player) {
+        this.angularRpg.player = player;
+      }
       this.gameElements = this.angularRpg.elements;
     }
   }
 
   @HostListener('window:keydown', ['$event'])
   onKeypress(event: KeyboardEvent): void {
+    if (!this.angularRpg) {
+      return;
+    }
+
     switch(event.key) {
       case 'w':
       case 'ArrowUp':
@@ -92,6 +96,10 @@ export class GameLevelComponent implements OnInit {
   }
 
   showItemInteractionDialog(item: Item): void {
+    if (!this.angularRpg) {
+      return;
+    }
+
     const config: MatDialogConfig = {
       disableClose: true,
       data: {
@@ -101,7 +109,7 @@ export class GameLevelComponent implements OnInit {
           title: 'Use',
           matStyle: 'primary',
           action: () => {
-            item.action(this.angularRpg.player, item.id);
+            item.action(this.angularRpg!.player, item.id);
             this.itemInteractionDialog.closeAll();
           },
         },
@@ -109,18 +117,21 @@ export class GameLevelComponent implements OnInit {
           title: 'Pick Up',
           matStyle: 'primary',
           action: () => {
-            this.angularRpg.player.inventory.push(item);
+            this.angularRpg!.player.inventory.push(item);
             this.itemInteractionDialog.closeAll();
           },
         }
       }
-    };
+    }
 
     this.itemInteractionDialog.open(DialogComponent, config);
   }
 
   onSaveClicked(): void {
-    // TODO download the save file
+    if (!this.angularRpg) {
+      return;
+    }
+
     const data = new AngularRpgSave(this.angularRpg).transformToJSON();
     const blob = new Blob([data], {type: 'application/json, charset=utf-8'});
     const player = this.angularRpg.player.name || 'unknownplayer';

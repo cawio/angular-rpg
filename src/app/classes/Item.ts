@@ -32,20 +32,21 @@ export class Item {
     let icon: string;
     let description: string;
     let action: (player: Player, myID: string) => void;
+    console.log(itemConfig)
     switch(itemData.actionType) {
       case ItemActionType.Heal:
-        name = 'Healing Apple';
-        icon = '🍎';
-        description = 'Heals 5 HP';
+        name = itemConfig.name;
+        icon = itemConfig.icon;
+        description = itemConfig.description;
         action = (player: Player, myID: string) => {
           player.heal(5);
           player.inventory = player.inventory.filter(item => item.id !== myID);
         }
         break;
       default:
-        name = 'Unknown Item';
-        icon = '❓';
-        description = 'Unknown Item';
+        name = itemConfig.name;
+        icon = itemConfig.icon;
+        description = itemConfig.description	;
         action = (player: Player, myID: string) => {
           console.log('Unknown Item');
           player.inventory = player.inventory.filter(item => item.id !== myID);

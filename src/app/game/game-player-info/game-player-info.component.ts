@@ -7,6 +7,6 @@ import { Player } from '../../classes/Player';
   styleUrls: ['./game-player-info.component.css']
 })
 export class GamePlayerInfoComponent {
-  @Input() player!: Player;
+  @Input() player?: Player;
 
 }

@@ -8,9 +8,9 @@ import { Tile } from '../../classes/Tile';
   styleUrls: ['./game-grid.component.css'],
 })
 export class GameGridComponent implements OnInit, OnChanges {
-  @Input() gridWidth: number = 0;
-  @Input() gridHeight: number = 0;
-  @Input() gameElements: GameElement[] = [];
+  @Input() gridWidth?: number;
+  @Input() gridHeight?: number;
+  @Input() gameElements?: GameElement[];
   grid: Tile[][] = [];
   type = ElementType; // set type to use enum in the template
 
@@ -25,6 +25,10 @@ export class GameGridComponent implements OnInit, OnChanges {
   }
 
   inizializeGrid(): void {
+    if (!this.gridWidth || !this.gridHeight) {
+      return;
+    }
+
     this.grid = [];
     for (let y = 0; y < this.gridWidth; y++) {
       let row: Tile[] = [];

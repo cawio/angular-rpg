@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { Subject, map } from 'rxjs';
+import { BehaviorSubject, map } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { AngularRpg } from '../classes/AngularRpg';
 import { ItemConfigData } from '../interfaces/ItemConfigData';
@@ -9,15 +9,13 @@ import { ItemConfigData } from '../interfaces/ItemConfigData';
 })
 export class AngularRpgService implements OnDestroy {
   private angularRpg?: AngularRpg;
-  private dataSubject: Subject<ItemConfigData[]> = new Subject<ItemConfigData[]>();
-  public itemConfigData$ = this.dataSubject.asObservable();
+  private dataBehaviorSubject: BehaviorSubject<ItemConfigData[] | null> = new BehaviorSubject<ItemConfigData[] | null>(null);
+  public itemConfigData$ = this.dataBehaviorSubject.asObservable();
 
-  constructor(private http: HttpClient) {
-    this.loadItemConfigData();
-  }
+  constructor(private http: HttpClient) { }
 
   ngOnDestroy(): void {
-    this.dataSubject.unsubscribe();
+    this.dataBehaviorSubject.unsubscribe();
   }
 
   setAngularRpg(angularRpg: AngularRpg): void {
@@ -32,9 +30,11 @@ export class AngularRpgService implements OnDestroy {
     this.angularRpg = undefined;
   }
 
-  private loadItemConfigData(): void {
+  public loadItemConfigData(): void {
+    console.log('loading item config data');
     this.http.get<ItemConfigData[]>('../../assets/data/configs/item-config-data.json').subscribe((data: ItemConfigData[]) => {
-      this.dataSubject.next(data);
+      console.log('angular-rpg-service data loaded:', data);
+      this.dataBehaviorSubject.next(data);
     });
   }
 }
